@@ -1,5 +1,6 @@
 const User = require('../models/user');
 
+
 const user_index = (req, res) => {
     User.find().sort({ createdAt: -1 })
         .then(result => {
@@ -39,7 +40,7 @@ const user_create_post = (req, res) => {
 
 const user_update_get = (req, res, next) => {
     const id = req.params.id;
-    user.findById(id)
+    User.findById(id)
         .then(result => {
             res.render('edit', { user: result, title: 'Edit user' });
         })
@@ -50,27 +51,22 @@ const user_update_get = (req, res, next) => {
 }
 
 const user_update_post = (req, res) => {
-    const user = new user(req.body);
-    user.save()
+    const id = req.params.id; // Extract the id from request parameters
+    User.findByIdAndUpdate(id, req.body) // Find and update the user document
         .then(result => {
-            const id = req.params.id;
-            user.findByIdAndDelete(id)
-                .then(result => {
-                    res.json({ redirect: '/users' });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-            res.redirect('/usrs');
+            res.redirect('/users'); // Redirect after successful update
         })
         .catch(err => {
             console.log(err);
+            res.render('404', { title: 'User not found' });
         });
 }
 
+
+
 const user_delete = (req, res) => {
     const id = req.params.id;
-    user.findByIdAndDelete(id)
+    User.findByIdAndDelete(id)
         .then(result => {
             res.json({ redirect: '/users' });
         })
@@ -78,6 +74,7 @@ const user_delete = (req, res) => {
             console.log(err);
         });
 }
+
 
 module.exports = {
     user_index,

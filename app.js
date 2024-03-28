@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const popularRoutes = require('./routes/popularRoutes');
+const router = express.Router();
+const userController = require('./controllers/userController');
 
 // express app
 const app = express();
@@ -39,12 +42,17 @@ app.get('/', (req, res) => {
     res.redirect('/index');
 });
 
+app.get('/index', (req, res) => {
+    res.render('index', { title: 'Welcome' });
+});
+
 app.get('/about', (req, res) => {
     res.render('about', { title: 'About' });
 });
 
 // user routes
 app.use('/users', userRoutes);
+app.use('/popular', popularRoutes);
 
 // 404 page
 app.use((req, res) => {
