@@ -1,0 +1,21 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+    <body>
+        <%- include("./partials/nav.ejs") %>
+
+            <div class="create-user content">
+                <form id="update_data" action="/users/update/<%= user._id %>" method="post">
+                    <label for="title">user title:</label>
+                    <input type="text" id="title" name="title" required value="<%= user.firstname %>">
+                    <label for="snippet">user snippet:</label>
+                    <input type="text" id="snippet" name="snippet" value="<%= user.lastname %>" required>
+                    <label for="body">user body:</label>
+                    <textarea id="body" name="body" required><%= user.phone %></textarea>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+            <%- include("./partials/footer.ejs") %>
+    </body>
+
+</html>
